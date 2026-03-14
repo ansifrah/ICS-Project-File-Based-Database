@@ -18,7 +18,7 @@ void delete_row(vector<string> tokens)
         logger("Cannot delete row: schema load failed or table does not exist\n", LOG_ERROR);
         return;
     }
-    //delete range of rows 1-4
+    //delete range of rows eg 1-4 means 1 to 4 rows deleted
     if (tokens[3] == "-")
     {
         int v1 = stoi(tokens[2]);

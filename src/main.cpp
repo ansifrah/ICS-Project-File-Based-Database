@@ -70,17 +70,17 @@ void testing_engine(){
 
     if (res != -1) logger("Successfully created schema\n", LOG_SUCCESS);
     else logger("Error in creating schema!\n", LOG_ERROR);
-// //testing by ashhar
-//     schema_t table_schema=get_schema_from_schema("Student__schema_data.bin");
-//         for (size_t i = 0; i < table_schema.num_cols; i++)
-//     {
-//         cout << table_schema.column_data[i].is_primary_key<< "\n";
-//         cout << table_schema.column_data[i].col_id<< "\n";
-//         cout << table_schema.column_data[i].data_type << "\n";
-//         cout << table_schema.column_data[i].col_name<< "\n";
-//         cout << table_schema.column_data[i].is_string << "\n";
-//         cout << table_schema.column_data[i].max_str_len<< "\n";
-//     }
+//testing by ashhar
+    // schema_t table_schema=get_schema_from_schema("Student__schema_data.bin");
+    //     for (size_t i = 0; i < table_schema.num_cols; i++)
+    // {
+    //     cout << table_schema.column_data[i].is_primary_key<< "\n";
+    //     cout << table_schema.column_data[i].col_id<< "\n";
+    //     cout << table_schema.column_data[i].data_type << "\n";
+    //     cout << table_schema.column_data[i].col_name<< "\n";
+    //     cout << table_schema.column_data[i].is_string << "\n";
+    //     cout << table_schema.column_data[i].max_str_len<< "\n";
+    // }
 
 
     vector<row_data_t> data_to_insert = {
