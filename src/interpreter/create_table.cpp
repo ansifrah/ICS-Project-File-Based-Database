@@ -29,16 +29,18 @@ void create_table(vector<string> tokens)
             col.col_id = column_id;
             col.data_type = type_map[tokens[i]];
             col.col_name = tokens[i - 1];
-
             col.is_string = (col.data_type == STRING);
-
             col.is_primary_key = false;
-            if (i + 1 < tokens.size() && tokens[i + 1] == "PRIMARY_KEY")
+
+            string primary="PRIMARY";
+            string key="KEY";
+            bool is_primary_key=(i + 2 < tokens.size()) && (strcasecmp( tokens[i + 1].c_str(),primary.c_str())==0) && (strcasecmp(tokens[i+2].c_str(),key.c_str())==0);
+            if (is_primary_key)
             {
                 col.is_primary_key = true;
-                if (i + 3 < tokens.size() && is_number(tokens[i + 3]))
+                if (i + 4 < tokens.size() && is_number(tokens[i + 4]))
                 {
-                    col.max_str_len = stoi(tokens[i + 3]);
+                    col.max_str_len = stoi(tokens[i + 4]);
                     check = 0;
                 }
             }

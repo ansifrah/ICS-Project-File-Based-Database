@@ -6,8 +6,11 @@ void insert_into_table(vector<string> tokens)
 {
     string table_name = tokens[2];
     schema_t new_schema = get_schema_from_schema(table_name + "__schema_data.bin");
-
     size_t num_cols = new_schema.num_cols;
+    if(num_cols==0){
+        logger("Cannot insert data: table does not exist!\n",LOG_ERROR);
+        return;
+    }
 
     auto j = tokens.begin() + 4;
 
@@ -22,10 +25,10 @@ void insert_into_table(vector<string> tokens)
             for (size_t i = 0; i < num_cols; i++)
             {
                 string value = *j;
-                if(value=="'"){
-                  j++;
-                  value=*j;
-                }
+                // if(value=="'"){
+                //   j++;
+                //   value=*j;
+                // }
 
                 if (value == "NULL") {
                     // represent null cell with nullptr
@@ -108,7 +111,7 @@ void insert_into_table(vector<string> tokens)
 
                 j++; // move to next token
 
-                if (*j == ","||*j=="'") // skip comma between values
+                if (*j == ",") // skip comma between values
                     j++;
             }
 

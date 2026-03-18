@@ -51,7 +51,7 @@ void read_table(vector<string> tokens)
 
     // ensure schema was actually loaded; if num_cols is zero we either failed or table is empty
     if (table_schema.num_cols == 0) {
-        logger("Failed to load schema or table has no columns\n", LOG_ERROR);
+        logger("Cannot read table: table does not exist!\n", LOG_ERROR);
         return;
     }
 

@@ -212,7 +212,7 @@ int main(){
     // }
     // create_table(tokenize("CREATE TABLE Student(ID INT, ROLL_NO STRING PRIMARY_KEY(10), Name STRING(20),Department STRING(20) );"));
     // insert_into_table(tokenize("INSERT INTO Student (1,b25ee1009,Ashhar);"));
- create_table(tokenize("create TABLE Test(ID INT,Name STRING(20));"));
+ create_table(tokenize("create TABLE Test(ID INT primary key,Name STRING(20));"));
 insert_into_table(tokenize(
 "insert INTO Test VALUES (1,'Ansari'),(2,'Ifrah');"));
 // delete_row("Student",0);
@@ -220,8 +220,8 @@ insert_into_table(tokenize(
 
 // show contents after insert to verify NULL handling
 read_table(tokenize("SELECT * FROM Test;"));
-delete_row(tokenize("DELETE (0,1) FROM Test"));
-read_table(tokenize("SELECT * from Test;"));
+// delete_row(tokenize("DELETE (0,1) FROM Test"));
+// read_table(tokenize("SELECT * from Test;"));
     // cout<<is_identifier("PEROSN_ID");
     // read_table(tokenize("SELECT ID,NAME FROM STUDENTS;"));
     // vector<string> tokens=tokenize("'Hello John' my name is 20.89");
