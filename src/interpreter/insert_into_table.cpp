@@ -9,6 +9,8 @@ void insert_into_table(vector<string> tokens)
     size_t num_cols = new_schema.num_cols;
     if(num_cols==0){
         logger("Cannot insert data: table does not exist!\n",LOG_ERROR);
+        logger("Tables availaible are:\n",LOG_WARNING);
+        display_tables();
         return;
     }
 
@@ -25,11 +27,6 @@ void insert_into_table(vector<string> tokens)
             for (size_t i = 0; i < num_cols; i++)
             {
                 string value = *j;
-                // if(value=="'"){
-                //   j++;
-                //   value=*j;
-                // }
-
                 if (value == "NULL") {
                     // represent null cell with nullptr
                     data_to_insert.push_back(
@@ -93,14 +90,6 @@ void insert_into_table(vector<string> tokens)
                         {static_cast<unsigned char>(i), make_shared<unsigned char>(v)});
                     break;
                 }
-
-                // case NULL_TYPE:
-                // {
-                //     // no actual data for NULL_TYPE; represent with nullptr
-                //     data_to_insert.push_back(
-                //         {static_cast<unsigned char>(i), shared_ptr<void>(nullptr)});
-                //     break;
-                // }
 
                 default:
                 {

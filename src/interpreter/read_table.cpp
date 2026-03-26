@@ -1,6 +1,7 @@
 #include "interpreter/interpreter.h"
 #include "engine/TableRead.h"
 
+//creating a function to convert the data in cell to string
 string cell_to_string(cell_data_t cellData)
 {
     switch (cellData.cell_data_type)
@@ -49,9 +50,11 @@ void read_table(vector<string> tokens)
     schema_t table_schema =
         get_schema_from_schema(table_name + "__schema_data.bin");
 
-    // ensure schema was actually loaded; if num_cols is zero we either failed or table is empty
+    // ensure schema was actually loaded; if num_cols is zero the table does not exist
     if (table_schema.num_cols == 0) {
         logger("Cannot read table: table does not exist!\n", LOG_ERROR);
+        logger("Tables avalaible are:\n",LOG_WARNING);
+        display_tables();
         return;
     }
 

@@ -203,6 +203,7 @@ void testing_modify()
 
 int main(){
     // testing_engine();
+    parser();
     // testing_read();
     // sample_testing();
     // testing_modify();
@@ -212,14 +213,14 @@ int main(){
     // }
     // create_table(tokenize("CREATE TABLE Student(ID INT, ROLL_NO STRING PRIMARY_KEY(10), Name STRING(20),Department STRING(20) );"));
     // insert_into_table(tokenize("INSERT INTO Student (1,b25ee1009,Ashhar);"));
- create_table(tokenize("create TABLE Test(ID INT primary key,Name STRING(20));"));
-insert_into_table(tokenize(
-"insert INTO Test VALUES (1,'Ansari'),(2,'Ifrah');"));
+ //create_table(tokenize("create TABLE Test(ID INT primary key,Name STRING(20));"));/
+//insert_into_table(tokenize(
+// "insert INTO Test VALUES (1,'Ansari'),(2,'Ifrah');"));
 // delete_row("Student",0);
 // insert_into_table(tokenize("INSERT INTO Student VALUES(0,NULL,'Ashhar','Electrical'),(1,'b25bb1009',NULL,'Bio');"));
-
+// display_tables();
 // show contents after insert to verify NULL handling
-read_table(tokenize("SELECT * FROM Test;"));
+// read_table(tokenize("SELECT * FROM Test;"));
 // delete_row(tokenize("DELETE (0,1) FROM Test"));
 // read_table(tokenize("SELECT * from Test;"));
     // cout<<is_identifier("PEROSN_ID");

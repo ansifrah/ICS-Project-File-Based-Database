@@ -4,6 +4,7 @@
 
 void delete_row(vector<string> tokens)
 {
+    //FROM position
     int from_pos=-1;
     for(size_t i=0;i<tokens.size();i++){
         string from="FROM";
@@ -12,11 +13,14 @@ void delete_row(vector<string> tokens)
           break;
         }
     }
+    //just after FROM we have table name, so extracting that
     string table_name=tokens[from_pos+1];
     schema_t schema = get_schema_from_schema(table_name + "__schema_data.bin");
     if (schema.num_cols == 0)
     {
         logger("Cannot delete row: table does not exist!\n", LOG_ERROR);
+        logger("Tables availaible are:\n",LOG_WARNING);
+        display_tables();
         return;
     }
     //delete range of rows 1-4

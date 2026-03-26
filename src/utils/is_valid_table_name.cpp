@@ -1,6 +1,6 @@
 #include "interpreter/interpreter.h"
 
-bool is_identifier(const string &s)
+bool is_valid_table_name(const string &s)
 {
     if (s.empty() || !(isalpha(s[0]) || s[0] == '_'))
         return false;

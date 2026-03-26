@@ -32,15 +32,25 @@ void create_table(vector<string> tokens)
             col.is_string = (col.data_type == STRING);
             col.is_primary_key = false;
 
-            string primary="PRIMARY";
-            string key="KEY";
-            bool is_primary_key=(i + 2 < tokens.size()) && (strcasecmp( tokens[i + 1].c_str(),primary.c_str())==0) && (strcasecmp(tokens[i+2].c_str(),key.c_str())==0);
+            bool is_primary_key;
+            string primary = "PRIMARY";
+            string key = "KEY";
+            // primary key check when data type not string
+            if (!col.is_string)
+            {
+                is_primary_key = ((i + 2 < tokens.size()) && (strcasecmp(tokens[i + 1].c_str(), primary.c_str()) == 0) && (strcasecmp(tokens[i + 2].c_str(), key.c_str()) == 0));
+            }
+            // primary key check when data type is string
+            else
+            {
+                is_primary_key = ((i + 5 < tokens.size()) && (strcasecmp(tokens[i + 4].c_str(), primary.c_str()) == 0) && (strcasecmp(tokens[i + 5].c_str(), key.c_str()) == 0));
+            }
             if (is_primary_key)
             {
                 col.is_primary_key = true;
-                if (i + 4 < tokens.size() && is_number(tokens[i + 4]))
+                if (i + 2 < tokens.size() && is_number(tokens[i + 2]))
                 {
-                    col.max_str_len = stoi(tokens[i + 4]);
+                    col.max_str_len = stoi(tokens[i + 2]);
                     check = 0;
                 }
             }
@@ -71,8 +81,8 @@ void create_table(vector<string> tokens)
     else
         logger("Error in creating schema!\n", LOG_ERROR);
     // checking
-    string table=tokens[2];
-    schema_t table_schema = get_schema_from_schema(table+"__schema_data.bin");
+    string table = tokens[2];
+    schema_t table_schema = get_schema_from_schema(table + "__schema_data.bin");
     for (size_t i = 0; i < table_schema.num_cols; i++)
     {
         cout << table_schema.column_data[i].is_primary_key << " ";
