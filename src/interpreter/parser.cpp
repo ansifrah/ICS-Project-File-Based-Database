@@ -26,22 +26,7 @@ void parser() {
         }
         
         else if (lower_tok[0] == "insert" && lower_tok[1] == "into" && lower_tok[3] == "values" && tokens[4] == "(" && tokens[l-2] == ")" && tokens[l-1] == ";") {
-            int flag = 0;
-            for (int i = 5; i<l-2; i++) {
-                if (lower_tok[i] == "create" || lower_tok[i] == "table" || lower_tok[i] == ";" || lower_tok[i] == "insert" || lower_tok[i] == "into" || lower_tok[i] == "values" || lower_tok[i] == "select" || lower_tok[i] == "from" || lower_tok[i] == "where" || lower_tok[i] == "delete" || lower_tok[i] == "set") {
-                    flag = 1;
-                    break;
-                }
-            }
-
-            if (flag == 1) {
-                printf("Error: Attempt to insert to insert Keyword! \n");
-                printf("Keywords: CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET, ; \n");
-            }
-
-            else {
-                insert_into_table(tokens);
-            }
+            check_insertRow(tokens, lower_tok);
         }
 
         else if (lower_tok[0] == "select" && tokens[l-1] == ";") {
@@ -62,11 +47,11 @@ void parser() {
         }
 
         else if (lower_tok[0] == "delete" && lower_tok[l-3] == "from" && lower_tok[l-1] == ";" && lower_tok[l-4] == ")" && lower_tok[1] == "(") {
-            delete_row(tokens);
+            check_deleteRow(tokens);
         }
 
         else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[4] == "=" && lower_tok[6] == "where" && lower_tok[8] == "=" && lower_tok[10] == ";") {
-            modify_row(tokens);
+            check_modifyRow(tokens, lower_tok);
         }
 
         else if (lower_tok[0] == "display" && lower_tok[1] == "tables" && lower_tok[2] == ";" && lower_tok.size() == 3) {

@@ -18,7 +18,7 @@ vector<string> tokenize(const string& s)
                 tokens.push_back(x);
                 x = "";
             }
-            // tokens.push_back("'");
+            tokens.push_back("'");
             in_quotes = true;
             quote_char = c;
             continue;
@@ -28,7 +28,7 @@ vector<string> tokenize(const string& s)
         {
             tokens.push_back(x);
             x = "";
-            // tokens.push_back("'");
+            tokens.push_back("'");
             in_quotes = false;
             continue;
         }

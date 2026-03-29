@@ -1,13 +1,12 @@
 #include "interpreter/interpreter.h"
+#include "engine/TableRead.h"
 
 //this function will only show 1 or 2 errors at a time
 //if user has made many mistakes in query, many attempts will be made by user until they get the right query
-//too many error messages together look bad
-//not a very professional comment, is it?
 
 void check_createTable(vector<string> tokens, vector<string> lower_tok) {
     int l = tokens.size();
-
+    int flag = 0;
     //checking for uniqueness of table name
     string table_name = tokens[2];
     int tableExists = 0;
@@ -25,6 +24,7 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
     for (int y = 0; y<u; y++) {
         if (tablenames[y] == table_name) {
             tableExists = 1;
+            break;
         }
     }
 
@@ -33,7 +33,7 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
     vector<string> col;
     vector<vector<string>> colData;
     vector<string> colNames = {" "};
-    vector<string> dataTypes = {"INT", "UNSIGNED_IT", "BOOLEAN", "FLOATING_POINT", "DOUBLE_FLOATING_POINT", "UNSIGNED_CHAR", "NULL_TYPE"};
+    vector<string> dataTypes = {"INT", "UNSIGNED_INT", "BOOLEAN", "FLOATING_POINT", "DOUBLE_FLOATING_POINT", "UNSIGNED_CHAR", "NULL_TYPE"};
 //did not include string in this as it is a special case
     for (int z = 4; z<l-2; z++) {
         if (tokens[z] != ",") {
@@ -61,38 +61,14 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
 
         if (t == 2) {
             string colName = col[0];
-            string dataType = "";
-            int w1 = col[1].size();
-            for (int iter = 0; iter<w1; iter++) {
-                dataType += (char) toupper((unsigned char) col[1][iter]);
+            string lowerCol = "";
+            int kl = colName.size();
+            for (int kl1 = 0; kl1<kl; kl1++) {
+                lowerCol += (char) tolower((unsigned char) colName[kl1]);
             }
-            int a1 = colNames.size();
-            for (int iter = 0; iter < a1; iter++) {
-                if (colNames[iter] == colName) {
-                    errorCode = 0;
-                }
+            if (lowerCol == "int" || lowerCol == "unsigned_int" || lowerCol == "string" || lowerCol == "boolean" || lowerCol == "floating_point" || lowerCol == "double_floating_point" || lowerCol == "unsigned_char") {
+                flag = 1;
             }
-            if (a1 > 255) {
-                errorCode = 2;
-            }
-            colNames.push_back(colName);
-            int exists = 0;
-            int a2 = dataTypes.size();
-            for (int iter = 0; iter < a2; iter++) {
-                if (dataType == dataTypes[iter]) {
-                    exists = 1;
-                }
-            }
-            if (dataType == "STRING") {
-                errorCode = 4;
-            }
-            else if (exists == 0) {
-                errorCode = 1;
-            }
-        }
-
-        else if (t == 4) {
-            string colName = col[0];
             string dataType = "";
             int w1 = col[1].size();
             for (int iter = 0; iter<w1; iter++) {
@@ -111,11 +87,51 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
             int exists = 0;
             int a2 = dataTypes.size();
             for (int iter = 0; iter < a2; iter++) {
-                if (dataType == dataTypes[iter]) {
+                if (col[1] == dataTypes[iter]) {
                     exists = 1;
                 }
             }
-            if (dataType == "STRING") {
+            if (col[1] == "STRING") {
+                errorCode = 4;
+            }
+            else if (exists == 0) {
+                errorCode = 1;
+            }
+        }
+
+        else if (t == 4) {
+            string colName = col[0];
+            string lowerCol = "";
+            int kl = colName.size();
+            for (int kl1 = 0; kl1<kl; kl1++) {
+                lowerCol += (char) tolower((unsigned char) colName[kl1]);
+            }
+            if (lowerCol == "int" || lowerCol == "unsigned_int" || lowerCol == "string" || lowerCol == "boolean" || lowerCol == "floating_point" || lowerCol == "double_floating_point" || lowerCol == "unsigned_char") {
+                flag = 1;
+            }
+            string dataType = "";
+            int w1 = col[1].size();
+            for (int iter = 0; iter<w1; iter++) {
+                dataType += (char) toupper((unsigned char) col[1][iter]);
+            }
+            int a1 = colNames.size();
+            for (int iter = 0; iter < a1; iter++) {
+                if (colNames[iter] == colName) {
+                    errorCode = 0;
+                }
+            }
+            if (colName.size() > 255) {
+                errorCode = 2;
+            }
+            colNames.push_back(colName);
+            int exists = 0;
+            int a2 = dataTypes.size();
+            for (int iter = 0; iter < a2; iter++) {
+                if (col[1] == dataTypes[iter]) {
+                    exists = 1;
+                }
+            }
+            if (col[1] == "STRING") {
                 errorCode = 4;
             }
             else if (exists == 0) {
@@ -142,6 +158,14 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
 
         else if (t == 5) {
             string colName = col[0];
+            string lowerCol = "";
+            int kl = colName.size();
+            for (int kl1 = 0; kl1<kl; kl1++) {
+                lowerCol += (char) tolower((unsigned char) colName[kl1]);
+            }
+            if (lowerCol == "int" || lowerCol == "unsigned_int" || lowerCol == "string" || lowerCol == "boolean" || lowerCol == "floating_point" || lowerCol == "double_floating_point" || lowerCol == "unsigned_char") {
+                flag = 1;
+            }
             string dataType = "";
             int w1 = col[1].size();
             for (int iter = 0; iter<w1; iter++) {
@@ -157,22 +181,36 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
                 errorCode = 2;
             }
             colNames.push_back(colName);
-            if (dataType != "STRING" || col[2] != "(" ||  col[4] != ")") {
+            if (col[1] != "STRING" || col[2] != "(" || col[4] != ")") {
                 errorCode = 4;
             }
-            else if (stoi(col[3])<0 || stoi(col[3]) == 0) {
-                errorCode = 5;
-            }
-            int b1 = col[3].size();
-            for (int iter = 0; iter<b1; iter++) {
-                if (col[3][iter] == '.' || col[3][iter] == '-') {
-                    errorCode = 5;                    
+            else {
+                int b1 = col[3].size();
+                int wrongSymb = 0;
+                for (int iter = 0; iter < b1; iter++) {
+                    if (col[3][iter] == '.' || col[3][iter] == '-') {
+                        wrongSymb = 1;
+                    }
+                }
+                if (wrongSymb == 1) {
+                    errorCode = 5;
+                }
+                else if (stoi(col[3]) == 0) {
+                    errorCode = 5;
                 }
             }
         }
 
         else if (t == 7) {
             string colName = col[0];
+            string lowerCol = "";
+            int kl = colName.size();
+            for (int kl1 = 0; kl1<kl; kl1++) {
+                lowerCol += (char) tolower((unsigned char) colName[kl1]);
+            }
+            if (lowerCol == "int" || lowerCol == "unsigned_int" || lowerCol == "string" || lowerCol == "boolean" || lowerCol == "floating_point" || lowerCol == "double_floating_point" || lowerCol == "unsigned_char") {
+                flag = 1;
+            }
             string dataType = "";
             int w1 = col[1].size();
             for (int iter = 0; iter<w1; iter++) {
@@ -188,20 +226,26 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
                 errorCode = 2;
             }
             colNames.push_back(colName);
-            if (dataType != "STRING" || col[4] != "(" ||  col[6] != ")") {
+            if (col[1] != "STRING" || col[2] != "(" ||  col[4] != ")") {
                 errorCode = 4;
             }
-            else if (stoi(col[5])<0 || stoi(col[5]) == 0) {
-                errorCode = 5;
-            }
-            int b3 = col[5].size();
-            for (int iter = 0; iter<b3; iter++) {
-                if (col[5][iter] == '.' || col[5][iter] == '-') {
-                    errorCode = 5;                    
+            else {
+                int b1 = col[5].size();
+                int wrongSymb = 0;
+                for (int iter = 0; iter < b1; iter++) {
+                    if (col[3][iter] == '.' || col[3][iter] == '-') {
+                        wrongSymb = 1;
+                    }
+                }
+                if (wrongSymb == 1) {
+                    errorCode = 5;
+                }
+                else if (stoi(col[3]) == 0) {
+                    errorCode = 5;
                 }
             }
-            string s1 = col[2];
-            string s2 = col[3]; 
+            string s1 = col[5];
+            string s2 = col[6]; 
             //converting lowercase before checking if it is a primary key
             string s1l = "";
             string s2l = "";
@@ -232,7 +276,6 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
     }
           
     //making sure that keywords are not used for column names
-    int flag = 0;
     for (int i = 4; i<l-2; i++) {
         if (lower_tok[i] == "create" || lower_tok[i] == "table" || lower_tok[i] == ";" || lower_tok[i] == "insert" || lower_tok[i] == "into" || lower_tok[i] == "values" || lower_tok[i] == "select" || lower_tok[i] == "from" || lower_tok[i] == "where" || lower_tok[i] == "delete" || lower_tok[i] == "set") {
             flag = 1;
@@ -244,7 +287,7 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
         printf("Error: PRIMARY KEY not found! \n");
 
         if (flag == 1) {
-            printf("Error: Attempt to insert to name column after Keyword or \';\'! \n");
+            printf("Error: Attempt to name column after Keyword or \';\' or data type! \n");
             printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n");
         }
     }
@@ -253,7 +296,7 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
         printf("only 1 PRIMARY KEY is allowed \n");
 
         if (flag == 1) {
-            printf("Error: Attempt to insert to name column after Keyword or \';\'! \n");
+            printf("Error: Attempt to name column after Keyword or \';\' or data type! \n");
             printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n");
         }
     }
@@ -267,7 +310,7 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok) {
     }
 
     else if (flag == 1) {
-        printf("Error: Attempt to insert to name column after Keyword or \';\'! \n");
+        printf("Error: Attempt to name column after Keyword or \';\' or data type! \n");
         printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n");
     }
 
