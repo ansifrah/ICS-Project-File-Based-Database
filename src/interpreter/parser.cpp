@@ -21,6 +21,10 @@ void parser() {
             lower_tok.push_back(lower);
         }
 
+        if (lower_tok[0] == "exit") {
+            break;
+        }
+
         if (lower_tok[0] == "create" && lower_tok[1] == "table" && tokens[l-1] == ";" && tokens[3] == "(" && tokens[l-2] == ")") {
             check_createTable(tokens, lower_tok);
         }
@@ -50,9 +54,9 @@ void parser() {
             check_deleteRow(tokens);
         }
 
-        else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[4] == "=" && lower_tok[6] == "where" && lower_tok[8] == "=" && lower_tok[10] == ";") {
-            check_modifyRow(tokens, lower_tok);
-        }
+        // else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[4] == "=" && lower_tok[6] == "where" && lower_tok[8] == "=" && lower_tok[10] == ";") {
+        //     check_modifyRow(tokens, lower_tok);
+        // }
 
         else if (lower_tok[0] == "display" && lower_tok[1] == "tables" && lower_tok[2] == ";" && lower_tok.size() == 3) {
             display_tables();
