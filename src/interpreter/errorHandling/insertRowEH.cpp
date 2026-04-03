@@ -370,7 +370,7 @@ void check_insertRow(vector<string> tokens, vector<string> lower_tok) {
         printf("Error: Table '%s' does not exist!\n", table_name.c_str());
     }
 
-    if (errorCode == 0) {
+    else if (errorCode == 0) {
         printf("Error: Incorrect row length in row %d. Expected %d columns for table '%s', but got %zu.\n", errorRow + 1, tableSchema.num_cols, tableSchema.table_name.c_str(), rows[errorRow].size());
     }
 
@@ -415,7 +415,6 @@ void check_insertRow(vector<string> tokens, vector<string> lower_tok) {
     }
 
     else {
-        for (auto x : tokens) cout << x << endl;
         insert_into_table(tokens);
     }    
 }

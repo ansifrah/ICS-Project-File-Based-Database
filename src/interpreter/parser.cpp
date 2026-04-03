@@ -11,14 +11,23 @@ void parser() {
         vector<string> lower_tok;
         int l = tokens.size();
 
-        for (int i = 0; i<l; i++) {
+        // for (int i = 0; i<l; i++) {
+        //     string s = tokens[i];
+        //     string lower = "";
+        //     int k = s.size();
+        //     for (int j = 0; j<k; j++) {
+        //         lower += (char) tolower((unsigned char) s[j]);
+        //     }
+        //     lower_tok.push_back(lower);
+        // }
+
+        // making lower case tokens
+        for (int i=0; i<l; i++){
             string s = tokens[i];
-            string lower = "";
-            int k = s.size();
-            for (int j = 0; j<k; j++) {
-                lower += (char) tolower((unsigned char) s[j]);
+            for (int j=0; j<(int)s.size(); j++){
+                s[j] = (char)tolower(s[j]);
             }
-            lower_tok.push_back(lower);
+            lower_tok.push_back(s);
         }
 
         if (lower_tok[0] == "exit") {
