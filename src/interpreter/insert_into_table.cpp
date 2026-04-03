@@ -60,6 +60,7 @@ void insert_into_table(vector<string> tokens)
 
                 case STRING:
                 {
+                    string_extractor(value);
                     data_to_insert.push_back(
                         {static_cast<unsigned char>(i), make_shared<string>(value)});
                     break;
