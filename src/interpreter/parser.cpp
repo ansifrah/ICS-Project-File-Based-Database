@@ -11,14 +11,27 @@ void parser() {
         vector<string> lower_tok;
         int l = tokens.size();
 
-        for (int i = 0; i<l; i++) {
+        // for (int i = 0; i<l; i++) {
+        //     string s = tokens[i];
+        //     string lower = "";
+        //     int k = s.size();
+        //     for (int j = 0; j<k; j++) {
+        //         lower += (char) tolower((unsigned char) s[j]);
+        //     }
+        //     lower_tok.push_back(lower);
+        // }
+
+        // making lower case tokens
+        for (int i=0; i<l; i++){
             string s = tokens[i];
-            string lower = "";
-            int k = s.size();
-            for (int j = 0; j<k; j++) {
-                lower += (char) tolower((unsigned char) s[j]);
+            for (int j=0; j<(int)s.size(); j++){
+                s[j] = (char)tolower(s[j]);
             }
-            lower_tok.push_back(lower);
+            lower_tok.push_back(s);
+        }
+
+        if (lower_tok[0] == "exit") {
+            break;
         }
 
         if (lower_tok[0] == "create" && lower_tok[1] == "table" && tokens[l-1] == ";" && tokens[3] == "(" && tokens[l-2] == ")") {
@@ -50,9 +63,9 @@ void parser() {
             check_deleteRow(tokens);
         }
 
-        else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[4] == "=" && lower_tok[6] == "where" && lower_tok[8] == "=" && lower_tok[10] == ";") {
-            check_modifyRow(tokens, lower_tok);
-        }
+        // else if (lower_tok[0] == "update" && lower_tok[2] == "set" && lower_tok[4] == "=" && lower_tok[6] == "where" && lower_tok[8] == "=" && lower_tok[10] == ";") {
+        //     check_modifyRow(tokens, lower_tok);
+        // }
 
         else if (lower_tok[0] == "display" && lower_tok[1] == "tables" && lower_tok[2] == ";" && lower_tok.size() == 3) {
             display_tables();
