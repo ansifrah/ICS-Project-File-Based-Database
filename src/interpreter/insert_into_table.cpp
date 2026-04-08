@@ -7,9 +7,10 @@ void insert_into_table(vector<string> tokens)
     string table_name = tokens[2];
     schema_t new_schema = get_schema_from_schema(table_name + "__schema_data.bin");
     size_t num_cols = new_schema.num_cols;
-    if(num_cols==0){
-        logger("Cannot insert data: table does not exist!\n",LOG_ERROR);
-        logger("Tables availaible are:\n",LOG_WARNING);
+    if (num_cols == 0)
+    {
+        logger("Cannot insert data: table does not exist!\n", LOG_ERROR);
+        logger("Tables availaible are:\n", LOG_WARNING);
         display_tables();
         return;
     }
@@ -27,11 +28,13 @@ void insert_into_table(vector<string> tokens)
             for (size_t i = 0; i < num_cols; i++)
             {
                 string value = *j;
-                if(*j=="'"){
-                  j++;
-                 value=*j;
-              }
-                if (value == "NULL") {
+                if (*j == "'")
+                {
+                    j++;
+                    value = *j;
+                }
+                if (value == "NULL")
+                {
                     // represent null cell with nullptr
                     data_to_insert.push_back(
                         {static_cast<unsigned char>(i), shared_ptr<void>(nullptr)});
@@ -53,8 +56,9 @@ void insert_into_table(vector<string> tokens)
 
                 case UNSIGNED_INT:
                 {
+                    unsigned int v = static_cast<unsigned int>(stoul(value));
                     data_to_insert.push_back(
-                        {static_cast<unsigned char>(i), make_shared<unsigned int>(stoul(value))});
+                        {static_cast<unsigned char>(i), make_shared<unsigned int>(v)});
                     break;
                 }
 
@@ -113,7 +117,7 @@ void insert_into_table(vector<string> tokens)
 
             if (result != 0)
             {
-                logger("error inserting row\n",LOG_ERROR);
+                logger("error inserting row\n", LOG_ERROR);
                 return;
             }
 
@@ -127,5 +131,5 @@ void insert_into_table(vector<string> tokens)
         }
     }
 
-    logger("all rows inserted successfully!\n",LOG_SUCCESS);
+    logger("all rows inserted successfully!\n", LOG_SUCCESS);
 }

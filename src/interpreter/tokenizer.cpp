@@ -7,7 +7,7 @@ vector<string> tokenize(const string &s)
     bool in_quotes = false;
     char quote_char = 0;
     size_t size = s.size();
-    bool check = false;
+    bool check;
 
     for (size_t i = 0; i < size; i++)
     {
@@ -18,14 +18,6 @@ vector<string> tokenize(const string &s)
         {
             for (size_t j = i + 1; j < size; j++)
             {
-                for (size_t k = j + 2; k < size; k++)
-                {
-                    if ((j + 1 < size) && s[j] == '\\' && s[j + 1] == '\'' && s[k] == '\'')
-                    {
-                        check = true;
-                        break;
-                    }
-                }
                 if (s[j] == '\'')
                 {
                     check = true;
@@ -34,14 +26,14 @@ vector<string> tokenize(const string &s)
             }
             if (!check)
             {
-                goto only_1_quote;
+                goto no_closing_quote;
             }
             if (!x.empty())
             {
                 tokens.push_back(x);
                 x = "";
             }
-            x+=c;
+            x += c;
             in_quotes = true;
             quote_char = c;
             continue;
@@ -49,7 +41,7 @@ vector<string> tokenize(const string &s)
 
         if (in_quotes && c == quote_char)
         {
-            x+=c;
+            x += c;
             tokens.push_back(x);
             x = "";
             in_quotes = false;
@@ -58,30 +50,11 @@ vector<string> tokenize(const string &s)
 
         if (in_quotes)
         {
-            if (c == '\\' && (i + 1) < size)
-            {
-                char next = s[i + 1];
-                if (next == quote_char || next == '\\')
-                {
-                    x += next;
-                    i++;
-                    continue;
-                }
-            }
-
-            if (c == quote_char)
-            {
-                tokens.push_back(x);
-                x = "";
-                tokens.push_back(string(1, quote_char));
-                in_quotes = false;
-                continue;
-            }
-
             x += c;
             continue;
         }
-    only_1_quote:
+
+    no_closing_quote:
         if (isspace(c))
         {
             if (!x.empty())
@@ -90,7 +63,7 @@ vector<string> tokenize(const string &s)
                 x = "";
             }
         }
-        else if (c == ',' || c == '(' || c == ')' || c == ';' || c == '=' || c == '-')
+        else if (c == ',' || c == '(' || c == ')' || c == ';' || c == '=')
         {
             if (!x.empty())
             {

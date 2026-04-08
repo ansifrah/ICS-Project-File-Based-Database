@@ -2,6 +2,7 @@
 #include "engine/TableCreate.h"
 #include "engine/TableWrite.h"
 #include "engine/TableRead.h"
+#include <iomanip>
 
 void create_table(vector<string> tokens)
 {
@@ -9,13 +10,13 @@ void create_table(vector<string> tokens)
     vector<col_item_t> column_data;
 
     unordered_map<string, col_data_type_t> type_map = {
-        {"INT", INT},
-        {"UNSIGNED_INT", UNSIGNED_INT},
-        {"STRING", STRING},
-        {"BOOLEAN", BOOLEAN},
-        {"FLOATING_POINT", FLOATING_POINT},
-        {"DOUBLE_FLOATING_POINT", DOUBLE_FLOATING_POINT},
-        {"UNSIGNED_CHAR", UNSIGNED_CHAR}};
+        {"int", INT},
+        {"unsigned_int", UNSIGNED_INT},
+        {"string", STRING},
+        {"bool", BOOLEAN},
+        {"float", FLOATING_POINT},
+        {"double", DOUBLE_FLOATING_POINT},
+        {"unsigned_char", UNSIGNED_CHAR}};
 
     for (size_t i = 0; i < tokens.size(); i++)
     {
@@ -80,17 +81,45 @@ void create_table(vector<string> tokens)
         logger("Successfully created schema\n", LOG_SUCCESS);
     else
         logger("Error in creating schema!\n", LOG_ERROR);
-    // checking
-    string table = tokens[2];
-    schema_t table_schema = get_schema_from_schema(table + "__schema_data.bin");
-    for (size_t i = 0; i < table_schema.num_cols; i++)
+
+    // printing the info of columns created
+    string table_name = tokens[2];
+    schema_t table_schema = get_schema_from_schema(table_name + "__schema_data.bin");
+    size_t colnum = table_schema.num_cols;
+    string data_type;
+    string max_str_len;
+
+    unordered_map<col_data_type_t, string> type_map2 = {
+        {INT, "int"},
+        {UNSIGNED_INT, "unsigned int"},
+        {STRING, "string"},
+        {BOOLEAN, "bool"},
+        {FLOATING_POINT, "float"},
+        {DOUBLE_FLOATING_POINT, "double"},
+        {UNSIGNED_CHAR, "unsigned char"}};
+
+    cout << left << setw(16) << "ColumnId"
+         << setw(18) << "ColumnName"
+         << setw(16) << "DataType"
+         << setw(21) << "is_PrimaryKey"
+         << setw(17) << "is_String"
+         << setw(17) << "MaxStrLen"
+         << "\n";
+
+    for (size_t i = 0; i < colnum; i++)
     {
-        cout << table_schema.column_data[i].is_primary_key << " ";
-        cout << (int)table_schema.column_data[i].col_id << " ";
-        cout << (int)table_schema.column_data[i].data_type << " ";
-        cout << table_schema.column_data[i].col_name << " ";
-        cout << table_schema.column_data[i].is_string << " ";
-        cout << table_schema.column_data[i].max_str_len << " ";
-        cout << endl;
+        data_type = type_map2[table_schema.column_data[i].data_type];
+        if (data_type != "string")
+            max_str_len = "N/A";
+        else
+            max_str_len = to_string(table_schema.column_data[i].max_str_len);
+
+        cout << left << setw(16) << (int)table_schema.column_data[i].col_id
+             << setw(18) << table_schema.column_data[i].col_name
+             << setw(16) << data_type
+             << setw(21) << boolalpha << table_schema.column_data[i].is_primary_key
+             << setw(17) << boolalpha << table_schema.column_data[i].is_string
+             << setw(17) << max_str_len
+             << '\n';
     }
 }

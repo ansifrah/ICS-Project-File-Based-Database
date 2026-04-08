@@ -17,7 +17,7 @@ size_t get_size_col_data_type(col_item_t column_data) {
         case INT:
             return sizeof(int);
         case UNSIGNED_INT:
-            return sizeof(UNSIGNED_INT);
+            return sizeof(unsigned int);
         case STRING:
             return column_data.max_str_len;
         case BOOLEAN:
@@ -26,6 +26,8 @@ size_t get_size_col_data_type(col_item_t column_data) {
             return sizeof(float);
         case DOUBLE_FLOATING_POINT:
             return sizeof(double);
+        case UNSIGNED_CHAR:
+            return sizeof(unsigned char);
         default:
             return 0;
     }
