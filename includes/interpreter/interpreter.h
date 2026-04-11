@@ -2,8 +2,9 @@
 #define INTERPRETER_H
 
 #include <bits/stdc++.h>
-using namespace std;
 #include <filesystem>
+#include "utils/logging.h"
+using namespace std;
 
 vector<string> tokenize(const string& s);
 bool is_valid_table_name(const string& s);

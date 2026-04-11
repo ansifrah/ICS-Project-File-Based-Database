@@ -8,13 +8,13 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
     // Basic length and syntax check (min: SELECT * FROM table ;)
     if (l < 5)
     {
-        printf("Error: Incomplete SELECT statement.\n");
+        logger("Error: Incomplete SELECT statement.\n", LOG_ERROR);
         return;
     }
 
     if (lower_tok[0] != "select" || tokens[l - 1] != ";")
     {
-        printf("Error: Syntax error. Expected format: SELECT col1, col2 FROM tableName ;\n");
+        logger("Error: Syntax error. Expected format: SELECT col1, col2 FROM tableName ;\n", LOG_ERROR);
         return;
     }
 
@@ -31,12 +31,12 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
 
     if (fromIdx == -1)
     {
-        printf("Error: Syntax error. Missing 'FROM' keyword.\n");
+        logger("Error: Syntax error. Missing 'FROM' keyword.\n", LOG_ERROR);
         return;
     }
     if (fromIdx == 1)
     {
-        printf("Error: Syntax error. Missing columns to select.\n");
+        logger("Error: Syntax error. Missing columns to select.\n", LOG_ERROR);
         return;
     }
 
@@ -59,7 +59,7 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
                 // Ensure no consecutive commas or trailing commas before FROM
                 if (i == 1 || i == fromIdx - 1 || tokens[i - 1] == ",")
                 {
-                    printf("Error: Syntax error in column list.\n");
+                    logger("Error: Syntax error in column list.\n", LOG_ERROR);
                     return;
                 }
             }
@@ -69,7 +69,7 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
     // getting the table name
     if (fromIdx >= l - 2)
     {
-        printf("Error: Syntax error. Missing table name after FROM.\n");
+        logger("Error: Syntax error. Missing table name after FROM.\n", LOG_ERROR);
         return;
     }
     string tbName = tokens[fromIdx + 1];
@@ -80,7 +80,7 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
 
     if (schema.num_cols == 0)
     {
-        printf("Error: Table '%s' does not exist.\n", tbName.c_str());
+        printf(ANSI_COLOR_RED "Error: Table '%s' does not exist." ANSI_COLOR_RESET "\n", tbName.c_str());
         return;
     }
 
@@ -100,7 +100,7 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
             }
             if (!found)
             {
-                printf("Error: Column '%s' does not exist in table '%s'.\n", selected_cols[i].c_str(), tbName.c_str());
+                printf(ANSI_COLOR_RED "Error: Column '%s' does not exist in table '%s'." ANSI_COLOR_RESET "\n", selected_cols[i].c_str(), tbName.c_str());
                 return;
             }
         }
@@ -122,7 +122,7 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
         // Syntax should be WHERE ID = value ;
         if (whereIdx != l - 5 || tokens[whereIdx + 2] != "=")
         {
-            printf("Error: Syntax error in WHERE clause. Expected format: WHERE ID = value ;\n");
+            logger("Error: Syntax error in WHERE clause. Expected format: WHERE ID = value ;\n", LOG_ERROR);
             return;
         }
 
@@ -136,7 +136,7 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
 
         if (lowerWhereCol != "id")
         {
-            printf("Error: Unsupported WHERE condition. Only 'ID' is allowed.\n");
+            logger("Error: Unsupported WHERE condition. Only 'ID' is allowed.\n", LOG_ERROR);
             return;
         }
 
@@ -157,7 +157,7 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
 
         if (colIdx == -1)
         {
-            printf("Error: Column 'ID' does not exist in table '%s'.\n", tbName.c_str());
+            printf(ANSI_COLOR_RED "Error: Column 'ID' does not exist in table '%s'." ANSI_COLOR_RESET "\n", tbName.c_str());
             return;
         }
         else
@@ -167,14 +167,14 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
             {
                 if (rowIDnum[it] < '0' || rowIDnum[it] > '9')
                 {
-                    printf("Error: invalid ID Number \n");
+                    logger("Error: invalid ID Number \n", LOG_ERROR);
                     return;
                 }
             }
             int colID = stoi(rowIDnum);
             if (colID >= schema.num_rows)
             {
-                printf("Error: Row ID out of bounds \n");
+                logger("Error: Row ID out of bounds \n", LOG_ERROR);
                 return;
             }
         }
@@ -184,7 +184,7 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
         // If there is no WHERE clause, there shouldn't be anything between the table name and ';'
         if (fromIdx + 2 != l - 1)
         {
-            printf("Error: Syntax error near '%s'.\n", tokens[fromIdx + 2].c_str());
+            printf(ANSI_COLOR_RED "Error: Syntax error near '%s'." ANSI_COLOR_RESET "\n", tokens[fromIdx + 2].c_str());
             return;
         }
     }

@@ -341,75 +341,75 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok)
 
     if (pk == 0)
     {
-        printf("Error: PRIMARY KEY not found! \n");
+        logger("Error: PRIMARY KEY not found! \n", LOG_ERROR);
 
         if (flag == 1)
         {
-            printf("Error: Attempt to name column after Keyword or \';\' or data type! \n");
-            printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n");
+            logger("Error: Attempt to name column after Keyword or \';\' or data type! \n", LOG_ERROR);
+            logger("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n", LOG_ERROR);
         }
     }
 
     else if (pk > 1)
     {
-        printf("only 1 PRIMARY KEY is allowed \n");
+        logger("only 1 PRIMARY KEY is allowed \n", LOG_ERROR);
 
         if (flag == 1)
         {
-            printf("Error: Attempt to name column after Keyword or \';\' or data type! \n");
-            printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n");
+            logger("Error: Attempt to name column after Keyword or \';\' or data type! \n", LOG_ERROR);
+            logger("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n", LOG_ERROR);
         }
     }
 
     else if (tableExists == 1)
     {
-        printf("table name already exists \n");
+        logger("table name already exists \n", LOG_ERROR);
     }
 
     else if (table_name.size() > 255)
     {
-        printf("table name can have a maximum of 255 characters \n");
+        logger("table name can have a maximum of 255 characters \n", LOG_ERROR);
     }
 
     else if (flag == 1)
     {
-        printf("Error: Attempt to name column after Keyword or \';\' or data type! \n");
-        printf("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n");
+        logger("Error: Attempt to name column after Keyword or \';\' or data type! \n", LOG_ERROR);
+        logger("Keywords: \"CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET\" \n", LOG_ERROR);
     }
 
     else if (errorCode == 0)
     {
-        printf("Column names are not unique \n");
+        logger("Column names are not unique \n", LOG_ERROR);
     }
 
     else if (errorCode == 1)
     {
-        printf("Check data types \n");
+        logger("Check data types \n", LOG_ERROR);
     }
 
     else if (errorCode == 2)
     {
-        printf("Column name is too long, maximum of 255 characters \n");
+        logger("Column name is too long, maximum of 255 characters \n", LOG_ERROR);
     }
 
     else if (errorCode == 3)
     {
-        printf("Did you mean PRIMARY KEY? \n");
+        logger("Did you mean PRIMARY KEY? \n", LOG_ERROR);
     }
 
     else if (errorCode == 4)
     {
-        printf("error while declaring string column \n");
+        logger("error while declaring string column \n", LOG_ERROR);
     }
 
     else if (errorCode == 5)
     {
-        printf("string length should be an integer greater than 0 \n");
+        logger("string length should be an integer greater than 0 \n", LOG_ERROR);
     }
 
     else if (errorCode == 6)
     {
-        printf("Error: Check your syntax \n");
+        logger("Error: Check your syntax \n", LOG_ERROR);
     }
 
     // if all conditions are passed table is created

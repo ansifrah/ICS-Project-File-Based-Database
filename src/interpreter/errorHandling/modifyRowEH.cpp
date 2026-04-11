@@ -132,19 +132,19 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
     // UPDATE table SET col1 = val1 WHERE col = val ; (Requires at least 11 tokens)
     if (l < 11)
     {
-        printf("Error: Incomplete UPDATE statement. Check your syntax.\n");
+        logger("Error: Incomplete UPDATE statement. Check your syntax.\n", LOG_ERROR);
         return;
     }
 
     if (lower_tok[0] != "update" || lower_tok[2] != "set" || lower_tok[l - 5] != "where" || tokens[l - 1] != ";")
     {
-        printf("Error: Syntax error. Expected format: UPDATE tableName SET col1 = val1, ... WHERE col = val;\n");
+        logger("Error: Syntax error. Expected format: UPDATE tableName SET col1 = val1, ... WHERE col = val;\n", LOG_ERROR);
         return;
     }
 
     if (tokens[l - 3] != "=")
     {
-        printf("Error: Syntax error in WHERE clause. Expected '='.\n");
+        logger("Error: Syntax error in WHERE clause. Expected '='.\n", LOG_ERROR);
         return;
     }
 
@@ -156,7 +156,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
     // If num_cols is 0, the schema file wasn't found or is empty
     if (schema.num_cols == 0)
     {
-        printf("Error: Table '%s' does not exist.\n", tbName.c_str());
+        printf(ANSI_COLOR_RED "Error: Table '%s' does not exist." ANSI_COLOR_RESET "\n", tbName.c_str());
         return;
     }
 
@@ -166,7 +166,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
     {
         if (tokens[i + 1] != "=")
         {
-            printf("Error: Syntax error in SET clause. Expected '=' after column '%s'.\n", tokens[i].c_str());
+            printf(ANSI_COLOR_RED "Error: Syntax error in SET clause. Expected '=' after column '%s'." ANSI_COLOR_RESET "\n", tokens[i].c_str());
             return;
         }
 
@@ -186,7 +186,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
 
         if (colIdx == -1)
         {
-            printf("Error: Column '%s' does not exist in table '%s'.\n", colName.c_str(), tbName.c_str());
+            printf(ANSI_COLOR_RED "Error: Column '%s' does not exist in table '%s'." ANSI_COLOR_RESET "\n", colName.c_str(), tbName.c_str());
             return;
         }
 
@@ -198,11 +198,11 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
         {
             if (type == STRING)
             {
-                printf("Error: Data type mismatch or string too long for column '%s'. Max allowed length is %d.\n", colName.c_str(), max_len);
+                printf(ANSI_COLOR_RED "Error: Data type mismatch or string too long for column '%s'. Max allowed length is %d." ANSI_COLOR_RESET "\n", colName.c_str(), max_len);
             }
             else
             {
-                printf("Error: Data type mismatch for column '%s'.\n", colName.c_str());
+                printf(ANSI_COLOR_RED "Error: Data type mismatch for column '%s'." ANSI_COLOR_RESET "\n", colName.c_str());
             }
             return;
         }
@@ -212,7 +212,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
         {
             if (!is_value_unique(schema, colIdx, type, val))
             {
-                printf("Error: Primary key constraint violation. Value '%s' already exists in column '%s'.\n", val.c_str(), colName.c_str());
+                printf(ANSI_COLOR_RED "Error: Primary key constraint violation. Value '%s' already exists in column '%s'." ANSI_COLOR_RESET "\n", val.c_str(), colName.c_str());
                 return;
             }
         }
@@ -223,7 +223,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
         {
             if (tokens[i] != ",")
             {
-                printf("Error: Syntax error in SET clause. Expected ',' between assignments.\n");
+                logger("Error: Syntax error in SET clause. Expected ',' between assignments.\n", LOG_ERROR);
                 return;
             }
             i++; // Skip the comma for the next iteration
@@ -233,7 +233,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
     // Catch-all for malformed trailing SET syntax
     if (i != l - 5)
     {
-        printf("Error: Syntax error in SET clause.\n");
+        logger("Error: Syntax error in SET clause.\n", LOG_ERROR);
         return;
     }
 
@@ -253,7 +253,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
 
     if (whereColIdx == -1)
     {
-        printf("Error: WHERE column '%s' does not exist in table '%s'.\n", whereColName.c_str(), tbName.c_str());
+        printf(ANSI_COLOR_RED "Error: WHERE column '%s' does not exist in table '%s'." ANSI_COLOR_RESET "\n", whereColName.c_str(), tbName.c_str());
         return;
     }
 
@@ -262,7 +262,7 @@ void check_modifyRow(vector<string> tokens, vector<string> lower_tok)
 
     if (!validate_data_type(whereVal, whereType, whereMaxLen))
     {
-        printf("Error: Data type mismatch in WHERE clause for column '%s'.\n", whereColName.c_str());
+        printf(ANSI_COLOR_RED "Error: Data type mismatch in WHERE clause for column '%s'." ANSI_COLOR_RESET "\n", whereColName.c_str());
         return;
     }
 

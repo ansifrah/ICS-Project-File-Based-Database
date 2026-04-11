@@ -14,7 +14,7 @@ void insert_into_table(vector<string> tokens)
     if (num_cols == 0)
     {
         logger("Cannot insert data: table does not exist!\n", LOG_ERROR);
-        logger("Tables availaible are:\n", LOG_WARNING);
+        logger("Available tables:\n", LOG_WARNING);
         display_tables();
         return;
     }
@@ -131,7 +131,7 @@ void insert_into_table(vector<string> tokens)
 
             if (result != 0)
             {
-                logger("error inserting row\n", LOG_ERROR);
+                logger("Error inserting row\n", LOG_ERROR);
                 return;
             }
 
@@ -146,5 +146,5 @@ void insert_into_table(vector<string> tokens)
         }
     }
 
-    logger("all rows inserted successfully!\n", LOG_SUCCESS);
+    logger("All rows inserted successfully!\n", LOG_SUCCESS);
 }

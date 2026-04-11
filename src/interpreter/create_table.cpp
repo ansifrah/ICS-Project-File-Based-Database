@@ -113,6 +113,10 @@ void create_table(vector<string> tokens)
         {UNSIGNED_CHAR, "unsigned char"}};
 
     // print the header row for our table of column info
+    logger("\nSchema for table '", LOG_INFO);
+    logger(table_name, LOG_INFO);
+    logger("':\n", LOG_INFO);
+    logger("-------------------------------------------------------------------------------------------------\n", LOG_WARNING);
     cout << left << setw(16) << "ColumnId"
          << setw(18) << "ColumnName"
          << setw(16) << "DataType"
@@ -120,6 +124,7 @@ void create_table(vector<string> tokens)
          << setw(17) << "is_String"
          << setw(17) << "MaxStrLen"
          << "\n";
+    logger("═════════════════════════════════════════════════════════════════════════════════════════════════\n", LOG_WARNING);
 
     // print out each column with all its attributes properly formatted
     for (size_t i = 0; i < colnum; i++)
@@ -140,4 +145,5 @@ void create_table(vector<string> tokens)
              << setw(17) << max_str_len
              << '\n';
     }
+    logger("-------------------------------------------------------------------------------------------------\n\n", LOG_WARNING);
 }

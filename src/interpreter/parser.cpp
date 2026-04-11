@@ -1,26 +1,44 @@
 #include "interpreter/interpreter.h"
 
 void parser() {
-    cout << "Welcome to our interpreter!!!" << endl;
-    cout << "A project by Abhishek Reddy N, Ashhar Bashar Ansari, Harish Babu Balaji and Rahul Shreevatsavan R V" << endl;
+    // ANSI color codes
+    string reset = "\033[0m";
+    string bold = "\033[1m";
+    string red = "\033[31m";
+    string green = "\033[32m";
+    string yellow = "\033[33m";
+    string blue = "\033[34m";
+    string magenta = "\033[35m";
+    string cyan = "\033[36m";
 
-    string ICS = R"(
-  _____   _____   _____ 
- |_   _| / ____| / ____|
-   | |  | |     | (___  
-   | |  | |      \___ \
-  _| |_ | |____  ____) |
- |_____| \_____||_____/ 
+    string projectTitle = R"(
+    ╔═══════════════════════════════════════════════════════════╗
+    ║                                                           ║
+    ║          🔷  DBMS PROJECT  🔷                             ║
+    ║          Database Management System                       ║
+    ║                                                           ║
+    ║   ██████╗ ██████╗ ███╗   ███╗███████╗                     ║
+    ║   ██╔══██╗██╔══██╗████╗ ████║██╔════╝                     ║
+    ║   ██║  ██║██████╔╝██╔████╔██║███████╗                     ║
+    ║   ██║  ██║██╔══██╗██║╚██╔╝██║╚════██║                     ║
+    ║   ██████╔╝██████╔╝██║ ╚═╝ ██║███████║                     ║
+    ║   ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝                     ║
+    ║                                                           ║
+    ║   A File-Based Database System                            ║
+    ║   By: Abhishek, Ashhar, Harish & Rahul                    ║
+    ║                                                           ║
+    ╚═══════════════════════════════════════════════════════════╝
     )";
 
-    cout << ICS << endl;
-    cout << "======================================================" << endl;
-    cout << " Database Command Line Interface v1.0.0" << endl;
-    cout << " Type 'help' for available commands or 'exit' to quit" << endl;
-    cout << "======================================================" << endl;
+    cout << cyan << projectTitle << reset << endl;
+    cout << yellow << "╔════════════════════════════════════════════════════════╗" << reset << endl;
+    cout << yellow << "║  " << blue << bold << "Database Command Line Interface v1.0.0" << reset << yellow << "                ║" << reset << endl;
+    cout << yellow << "║  " << green << "Type 'help' for commands or 'exit' to quit" << reset << yellow << "            ║" << reset << endl;
+    cout << yellow << "╚════════════════════════════════════════════════════════╝" << reset << endl;
+    cout << endl;
 // for commit check
     while (true) {
-        printf("~$ ");
+        logger("~$ ", LOG_INFO);
         string query;
         getline(cin, query);
         
@@ -42,14 +60,15 @@ void parser() {
         }
 
         else if (lower_tok.size() == 1 && lower_tok[0] == "help") {
-            cout << "Available Commands:" << endl;
+            cout << "\nAvailable Commands:" << endl;
             cout << "  CREATE TABLE ... ;  - Create a new table" << endl;
             cout << "  INSERT INTO ... ;   - Insert a row into a table" << endl;
             cout << "  SELECT ... ;        - Query data from a table" << endl;
             cout << "  UPDATE ... ;        - Modify an existing row" << endl;
             cout << "  DELETE ... ;        - Remove a row" << endl;
             cout << "  DISPLAY TABLES ;    - List all available tables" << endl;
-            cout << "  exit                - Exit" << endl;
+            cout << "  exit                - Exit the application" << endl;
+            cout << endl;
         }
 
         else if (lower_tok[0] == "create" && lower_tok[1] == "table" && tokens[l-1] == ";" && tokens[3] == "(" && tokens[l-2] == ")") {
@@ -77,7 +96,7 @@ void parser() {
         }
 
         else {
-            printf("Error: Invalid Command! \n");
+            logger("Error: Invalid Command!\n", LOG_ERROR);
         }
     }
     return;

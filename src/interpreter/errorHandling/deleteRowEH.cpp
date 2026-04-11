@@ -130,32 +130,32 @@ void check_deleteRow(vector<string> tokens)
 
     if (tableExists == 0)
     {
-        printf("table does not exist! \n");
+        logger("table does not exist! \n", LOG_ERROR);
     }
 
     else if (errorCode == 0)
     {
-        printf("wrong syntax while specifying row id \n");
+        logger("wrong syntax while specifying row id \n", LOG_ERROR);
     }
 
     else if (errorCode == 1)
     {
-        printf("check id numbers \n");
+        logger("check id numbers \n", LOG_ERROR);
     }
 
     else if (errorCode == 2)
     {
-        printf("check your commas \n");
+        logger("check your commas \n", LOG_ERROR);
     }
 
     else if (errorCode == 3)
     {
-        printf("id numbers should be separated by commas \n");
+        logger("id numbers should be separated by commas \n", LOG_ERROR);
     }
 
     else if (errorCode == 4)
     {
-        printf("error: check your syntax \n");
+        logger("error: check your syntax \n", LOG_ERROR);
     }
 
     else

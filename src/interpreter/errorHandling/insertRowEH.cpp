@@ -363,51 +363,51 @@ void check_insertRow(vector<string> tokens, vector<string> lower_tok) {
 
     // final error handling outputs
     if (tableExists == 0) {
-        printf("Error: Table '%s' does not exist!\n", table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: Table '%s' does not exist!" ANSI_COLOR_RESET "\n", table_name.c_str());
     }
 
     else if (errorCode == 0) {
-        printf("Error: Incorrect row length in row %d. Expected %d columns for table '%s', but got %zu.\n", errorRow + 1, tableSchema.num_cols, tableSchema.table_name.c_str(), rows[errorRow].size());
+        printf(ANSI_COLOR_RED "Error: Incorrect row length in row %d. Expected %d columns for table '%s', but got %zu." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.num_cols, tableSchema.table_name.c_str(), rows[errorRow].size());
     }
 
     else if (errorCode == 1) {
-        printf("Error: String length exceeds the maximum allowed limit in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: String length exceeds the maximum allowed limit in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
 
     else if (errorCode == 2) {
-        printf("Error: Invalid integer value provided in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: Invalid integer value provided in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
 
     else if (errorCode == 3) {
-        printf("Error: Invalid unsigned integer value provided in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: Invalid unsigned integer value provided in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
 
     else if (errorCode == 4) {
-        printf("Error: Boolean value must be 'true' or 'false' in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: Boolean value must be 'true' or 'false' in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
 
     else if (errorCode == 5) {
-        printf("Error: Invalid floating point value provided in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: Invalid floating point value provided in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
 
     else if (errorCode == 6) {
-        printf("Error: Invalid double floating point value provided in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: Invalid double floating point value provided in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
 
     else if (errorCode == 7) {
-        printf("Error: Invalid unsigned char value provided in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: Invalid unsigned char value provided in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
 
     else if (errorCode == 8) {
-        printf("Error: Primary key value is not unique in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: Primary key value is not unique in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
 
     else if (errorCode == 9) {
-        printf("Error: String data must be enclosed in single quotes in row %d for table '%s'.\n", errorRow + 1, tableSchema.table_name.c_str());
+        printf(ANSI_COLOR_RED "Error: String data must be enclosed in single quotes in row %d for table '%s'." ANSI_COLOR_RESET "\n", errorRow + 1, tableSchema.table_name.c_str());
     }
     
     else if (flag == 1) {
-        printf("Error: Attempt to insert reserved keyword! Reserved keywords include: CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET, ; and data types.\n");
+        logger("Error: Attempt to insert reserved keyword! Reserved keywords include: CREATE, TABLE, INSERT, INTO, VALUES, SELECT, FROM, WHERE, DELETE, SET, ; and data types.\n", LOG_ERROR);
     }
 
     else {
