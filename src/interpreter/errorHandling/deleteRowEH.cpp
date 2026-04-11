@@ -130,32 +130,32 @@ void check_deleteRow(vector<string> tokens)
 
     if (tableExists == 0)
     {
-        logger("table does not exist! \n", LOG_ERROR);
+        logger("Table does not exist! \n", LOG_ERROR);
     }
 
     else if (errorCode == 0)
     {
-        logger("wrong syntax while specifying row id \n", LOG_ERROR);
+        logger("Wrong syntax while specifying row id \n", LOG_ERROR);
     }
 
     else if (errorCode == 1)
     {
-        logger("check id numbers \n", LOG_ERROR);
+        logger("Check id numbers \n", LOG_ERROR);
     }
 
     else if (errorCode == 2)
     {
-        logger("check your commas \n", LOG_ERROR);
+        logger("Check your commas \n", LOG_ERROR);
     }
 
     else if (errorCode == 3)
     {
-        logger("id numbers should be separated by commas \n", LOG_ERROR);
+        logger("Id numbers should be separated by commas \n", LOG_ERROR);
     }
 
     else if (errorCode == 4)
     {
-        logger("error: check your syntax \n", LOG_ERROR);
+        logger("Error: check your syntax \n", LOG_ERROR);
     }
 
     else

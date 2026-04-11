@@ -363,12 +363,12 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok)
 
     else if (tableExists == 1)
     {
-        logger("table name already exists \n", LOG_ERROR);
+        logger("Table name already exists \n", LOG_ERROR);
     }
 
     else if (table_name.size() > 255)
     {
-        logger("table name can have a maximum of 255 characters \n", LOG_ERROR);
+        logger("Table name can have a maximum of 255 characters \n", LOG_ERROR);
     }
 
     else if (flag == 1)
@@ -399,12 +399,12 @@ void check_createTable(vector<string> tokens, vector<string> lower_tok)
 
     else if (errorCode == 4)
     {
-        logger("error while declaring string column \n", LOG_ERROR);
+        logger("Error while declaring string column \n", LOG_ERROR);
     }
 
     else if (errorCode == 5)
     {
-        logger("string length should be an integer greater than 0 \n", LOG_ERROR);
+        logger("String length should be an integer greater than 0 \n", LOG_ERROR);
     }
 
     else if (errorCode == 6)
