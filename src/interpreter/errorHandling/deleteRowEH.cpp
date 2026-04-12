@@ -148,7 +148,7 @@ void check_deleteRow(vector<string> tokens)
     if (tableExists == 0)
     {
         logger("Error: Table does not exist! \n", LOG_ERROR);
-        logger("Tables availaible are:\n",LOG_WARNING);
+        logger("Tables available are:\n",LOG_WARNING);
         display_tables();
     }
 

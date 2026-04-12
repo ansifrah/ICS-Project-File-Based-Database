@@ -24,7 +24,7 @@ void delete_row(vector<string> tokens)
     if (schema.num_cols == 0)
     {
         logger("Cannot delete row: table does not exist!\n", LOG_ERROR);
-        logger("Tables availaible are:\n", LOG_WARNING);
+        logger("Tables available are:\n", LOG_WARNING);
         display_tables();
         return;
     }
