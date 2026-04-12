@@ -1,7 +1,7 @@
 #include "interpreter/interpreter.h"
 #include "engine/TableRead.h"
 
-//creating a function to convert the data in cell to string
+// creating a function to convert the data in cell to string
 string cell_to_string(cell_data_t cellData)
 {
     // check what type of data we're dealing with and convert accordingly
@@ -32,7 +32,7 @@ string cell_to_string(cell_data_t cellData)
     case STRING:
         // cast the void pointer to char pointer which is already a string-like data
         return string(static_cast<char *>(cellData.cell_data.get()));
-        
+
     default:
         // if we somehow get an unknown type, throw an error
         throw runtime_error("Unknown cell data type");
@@ -46,9 +46,9 @@ void read_table(vector<string> tokens)
     // scan through tokens to find the FROM keyword, table name comes right after
     for (size_t i = 0; i < tokens.size(); i++)
     {
-        string from="FROM";
+        string from = "FROM";
         // using strcasecmp to handle case-insensitive matching (FROM, from, From all work)
-        if (strcasecmp(tokens[i].c_str(),from.c_str())==0)
+        if (strcasecmp(tokens[i].c_str(), from.c_str()) == 0)
         {
             table_name = tokens[i + 1];
             break;
@@ -60,39 +60,17 @@ void read_table(vector<string> tokens)
         get_schema_from_schema(table_name + "__schema_data.bin");
 
     // if the table doesn't exist, the schema will have 0 columns
-    if (table_schema.num_cols == 0) {
+    if (table_schema.num_cols == 0)
+    {
         logger("Cannot read table: table does not exist!\n", LOG_ERROR);
         logger("Available tables:\n", LOG_WARNING);
         display_tables();
         return;
     }
 
-    // WHERE detection
-    int where_pos = -1;
-
-    // scan for the WHERE keyword
-    for (size_t i = 0; i < tokens.size(); i++)
-    {
-        string where="WHERE";
-        if (strcasecmp(tokens[i].c_str(),where.c_str())==0)
-        {
-            where_pos = i;
-            break;
-        }
-    }
-
-    // by default we read all rows, but WHERE clause might narrow it down
+    // read all rows
     int start_row = 0;
     int end_row = table_schema.num_rows;
-
-    // if WHERE clause exists, only fetch the specific row mentioned
-    if (where_pos != -1)
-    {
-        // the row number is 3 tokens after WHERE (WHERE == row_num, for example)
-        int target_row = stoi(tokens[where_pos + 3]);
-        start_row = target_row;
-        end_row = target_row + 1;  // +1 because the range is [start, end)
-    }
 
     // these will store the column names and all the row data
     vector<string> columns;
@@ -113,9 +91,18 @@ void read_table(vector<string> tokens)
     }
     else
     {
-        // figure out where the column list ends (either WHERE keyword or end of tokens)
-        size_t select_end =
-            (where_pos == -1) ? tokens.size() - 3 : where_pos;
+        // figure out where the column list ends (at the token before FROM)
+        // tokens: SELECT col1, col2, ... FROM table_name
+        // find FROM position and select_end is one position before it
+        size_t select_end = tokens.size();
+        for (size_t i = 0; i < tokens.size(); i++)
+        {
+            if (strcasecmp(tokens[i].c_str(), "FROM") == 0)
+            {
+                select_end = i;
+                break;
+            }
+        }
 
         // go through each specified column (skip every other token which are commas)
         for (size_t j = 1; j < select_end; j += 2)
