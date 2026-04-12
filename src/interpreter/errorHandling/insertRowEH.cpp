@@ -364,6 +364,8 @@ void check_insertRow(vector<string> tokens, vector<string> lower_tok) {
     // final error handling outputs
     if (tableExists == 0) {
         printf(ANSI_COLOR_RED "Error: Table '%s' does not exist!" ANSI_COLOR_RESET "\n", table_name.c_str());
+        cout << "Tables availaible are:\n";
+        display_tables();
     }
 
     else if (errorCode == 0) {

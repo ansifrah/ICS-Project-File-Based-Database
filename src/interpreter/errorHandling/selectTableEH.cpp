@@ -81,6 +81,8 @@ void check_selectData(vector<string> tokens, vector<string> lower_tok)
     if (schema.num_cols == 0)
     {
         printf(ANSI_COLOR_RED "Error: Table '%s' does not exist." ANSI_COLOR_RESET "\n", tbName.c_str());
+        cout << "Tables availaible are:\n";
+        display_tables();
         return;
     }
 
