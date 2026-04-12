@@ -306,7 +306,7 @@ display schema table_name;
 
 #### Parameters
 
-- `table_name` - Name of the table whose schema you want to view (case-insensitive)
+- `table_name` - Name of the table whose schema you want to view (case-sensitive)
 
 #### How It Works
 
@@ -328,7 +328,7 @@ This will show the complete schema structure of the employees table, including a
 
 - The table must exist for the command to work
 - If the table does not exist, an error message will be displayed
-- The command is case-insensitive for table names
+- The command is case-sensitive for table names
 - This is useful for understanding table structure before performing operations
 
 ### 8. Additional Commands

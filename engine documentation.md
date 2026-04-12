@@ -673,4 +673,3 @@ When calling `get_schema_from_schema()`, use the full filename including `__sche
 | `get_table_cell_data()` | Read a single cell | Returns cell_data_t, check cell_data_type |
 | `cell_data_modify()` | Update a cell | Enforces type matching, returns 0 on success |
 | `delete_row_from_table()` | Remove a row | Automatically decrements schema.num_rows, returns 0 on success |
-
